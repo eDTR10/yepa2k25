@@ -27,7 +27,7 @@ const router = createBrowserRouter([
         element: <Navigate to="/yepa2k25/voting" />, 
       },
       {
-        path: "/yepa2k25/page1",
+        path: "/yepa2k25/voting",
         element: <>
         <Suspense fallback={<Loader />}>
           <Voting/>
