@@ -18,16 +18,16 @@ const Voting = lazy(() =>
 );
 const router = createBrowserRouter([
   {
-    path: "/react-vite-supreme/",
+    path: "/yepa2k25/",
     element: <App />,
     
     children: [
       {
-        path: "/react-vite-supreme/", 
-        element: <Navigate to="/react-vite-supreme/page1" />, 
+        path: "/yepa2k25/", 
+        element: <Navigate to="/yepa2k25/voting" />, 
       },
       {
-        path: "/react-vite-supreme/page1",
+        path: "/yepa2k25/page1",
         element: <>
         <Suspense fallback={<Loader />}>
           <Voting/>
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       </>,
       },
       {
-        path: "/react-vite-supreme/page2",
+        path: "/yepa2k25/page2",
         element: <>
         <Suspense fallback={<Loader />}>
           <Page2 />
