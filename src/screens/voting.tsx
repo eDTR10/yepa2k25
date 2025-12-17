@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight, Star, Building2Icon } from 'lucide-react';
-import { useState } from 'react';
+import { useState,  useEffect,useMemo } from 'react';
 import './../index.css'
 import IMGSample1 from '/576932793_1586869122654411_2781440902001805892_n.jpg'
 import IMGSample2 from '/565097823_1106031588362675_2331175491752899233_n.jpg'
@@ -145,7 +145,22 @@ export default function Voting() {
   const [gender, setGender] = useState('men');
   const [votes, setVotes] = useState<{[key: number]: boolean}>({});
 
+  const stars = useMemo(() => Array.from({length: 100}, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    delay: `${Math.random() * 2}s`,
+    size: `${1 + Math.random() * 2}px`
+  })), []);
+
   const cards = gender === 'men' ? menCards : womenCards;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [cards.length]);
 
   const handleVote = (cardId: number) => {
     
@@ -277,12 +292,20 @@ export default function Voting() {
   };
 
   return (
-    <div className=" relative min-h-screen pt-5 pb-10 w-screen overflow-hidden flex items-center justify-center p-0   bg-[#040b35]" >
+    <div className=" relative min-h-screen pt-5 pb-10 w-screen overflow-hidden flex items-center justify-center p-0   bg-transparent" >
 
 
       <div className=' z-0 absolute w-[400vw] h-full pointer-events-none '>
 
-        <img src={BG} className=' absolute z-0 h-[80vh] stars ' alt="" />
+        <img src={BG} className=' absolute z-[-1] h-[80vh] stars ' alt="" />
+
+        <div className="stars-container">
+          {stars.map((star) => (
+            <div key={star.id} className="star" style={{left: star.left, top: star.top, animationDelay: star.delay, width: star.size, height: star.size}}></div>
+          ))}
+        </div>
+
+        <div className="moon"></div>
 
       </div>
       
@@ -576,6 +599,27 @@ Mr. and Ms. Best Dresse          </h1>
         @keyframes shine {
           0% { background-position: -200% center; }
           100% { background-position: 200% center; }
+        }
+        @keyframes blink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
+        }
+        .star {
+          position: absolute;
+          background: white;
+          border-radius: 50%;
+          animation: blink 2s infinite;
+        }
+        .moon {
+          position: absolute;
+          top: 10%;
+          left: 10%;
+          width: 60px;
+          height: 60px;
+          background: radial-gradient(circle at 25% 25%, transparent 35%, #ffeb3b 36%, #ffeb3b 65%, transparent 66%);
+          border-radius: 50%;
+          opacity: 0.7;
+          box-shadow: 0 0 20px rgba(255, 235, 59, 0.5);
         }
       `}</style>
     </div>

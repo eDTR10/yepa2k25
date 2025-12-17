@@ -9,12 +9,16 @@ import NotFound from "./screens/notFound";
 import Loader from './components/loader/loader.tsx';
 
 
-const Page2= lazy(() =>
-  wait(1300).then(() => import("./screens/page2.tsx"))
-);
+// const Page2= lazy(() =>
+//   wait(1300).then(() => import("./screens/page2.tsx"))
+// );
 
 const Voting = lazy(() =>
-  wait(1300).then(() => import("./screens/voting.tsx"))
+  wait(2300).then(() => import("./screens/voting.tsx"))
+);
+
+const Photobooth = lazy(() =>
+  wait(2300).then(() => import("./screens/photo.tsx"))
 );
 const router = createBrowserRouter([
   {
@@ -35,10 +39,10 @@ const router = createBrowserRouter([
       </>,
       },
       {
-        path: "/yepa2k25/page2",
+        path: "/yepa2k25/snap",
         element: <>
         <Suspense fallback={<Loader />}>
-          <Page2 />
+          <Photobooth />
         </Suspense>
       </>,
       },
