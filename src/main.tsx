@@ -20,7 +20,68 @@ const Voting = lazy(() =>
 const Photobooth = lazy(() =>
   wait(2300).then(() => import("./screens/photo.tsx"))
 );
+
+const Admin = lazy(() =>
+  wait(2300).then(() => import("./screens/admin.tsx"))
+);
+const Ranking = lazy(() =>
+  wait(2300).then(() => import("./screens/ranking.tsx"))
+);
+
+const Rate = lazy(() =>
+  wait(2300).then(() => import("./Rate.tsx"))
+);
+const Rating= lazy(() =>
+  wait(2300).then(() => import("./screens/rating.tsx"))
+);
+
 const router = createBrowserRouter([
+  {
+    path: "/yepa2k25/performance",
+    element: <Rate />,
+    
+    children: [
+      {
+        path: "/yepa2k25/performance", 
+        element: <Navigate to="/yepa2k25/performance/rating" />, 
+      },
+      {
+        path: "/yepa2k25/performance/rating",
+        element: <>
+        <Suspense fallback={<Loader />}>
+          <Rating/>
+        </Suspense>
+      </>,
+      }
+      ,
+      {
+        path: "/yepa2k25/performance/snap",
+        element: <>
+        <Suspense fallback={<Loader />}>
+          <Photobooth />
+        </Suspense>
+      </>,
+      },
+      
+      
+      ]
+    },
+  {
+    path: "/yepa2k25/rank",
+    element: <>
+    <Suspense fallback={<Loader />}>
+      <Ranking />
+    </Suspense>
+  </>,
+  },
+  {
+    path: "/yepa2k25/admin",
+    element: <>
+    <Suspense fallback={<Loader />}>
+      <Admin />
+    </Suspense>
+  </>,
+  },
   {
     path: "/yepa2k25/",
     element: <App />,

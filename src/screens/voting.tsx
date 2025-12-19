@@ -1,149 +1,74 @@
 import { ChevronLeft, ChevronRight, Star, Building2Icon } from 'lucide-react';
-import { useState,  useEffect,useMemo } from 'react';
+import { useState,  useEffect, useRef, useMemo } from 'react';
 import './../index.css'
-import IMGSample1 from '/576932793_1586869122654411_2781440902001805892_n.jpg'
-import IMGSample2 from '/565097823_1106031588362675_2331175491752899233_n.jpg'
 import BG from './../assets/bg-stars.webp'
-const menCards = [
-  {
-    id: 1,
-    title: "Mohammed Al-Rashid",
-    location: "Regional Office",
-    age: 4.9,
-    image: IMGSample1,
-    description: "Charismatic and dignified Arabian Prince",
-    date: "Dec 2024"
-  },
-  {
-    id: 2,
-    title: "Ahmed Hassan",
-    location: "Bukidnon Provincial Office",
-    age: 4.8,
-    image: IMGSample1,
-    description: "Elegant and sophisticated Arabian Prince",
-    date: "Jan 2025"
-  },
-  {
-    id: 3,
-    title: "Karim Mansouri",
-    location: "Camiguin Provincial Office",
-    age: 4.9,
-    image: IMGSample1,
-    description: "Charming and graceful Arabian Prince",
-    date: "Feb 2025"
-  },
-  {
-    id: 4,
-    title: "Hassan Al-Zahra",
-    location: "Misamis Oriental Provincial Office",
-    age: 5.0,
-    image: IMGSample1,
-    description: "Noble and distinguished Arabian Prince",
-    date: "Mar 2025"
-  },
-  {
-    id: 5,
-    title: "Ibrahim Al-Noor",
-    location: "Misamis Occidental Provincial Office",
-    age: 4.7,
-    image: IMGSample1,
-    description: "Radiant and impressive Arabian Prince",
-    date: "Apr 2025"
-  }
-];
+import axios from './../plugin/axios'
 
-const womenCards = [
-  {
-    id: 6,
-    title: "Fatima Al-Saada",
-    location: "Lanao del Norte Provincial Office",
-    age: 4.9,
-    image:  IMGSample2,
-    description: "Graceful and beautiful Arabian Princess",
-    date: "Dec 2024"
-  },
-  {
-    id: 7,
-    title: "Aisha Al-Zahra",
-    location: "Iligan City Office",
-    age: 5.0,
-    image:  IMGSample2,
-    description: "Radiant and elegant Arabian Princess",
-    date: "Jan 2025"
-  },
-  {
-    id: 8,
-    title: "Noor Al-Amira",
-    location: "Regional Office",
-    age: 4.8,
-    image:  IMGSample2,
-    description: "Luminous and captivating Arabian Princess",
-    date: "Feb 2025"
-  },
-  {
-    id: 9,
-    title: "Layla Mansouri",
-    location: "Bukidnon Provincial Office",
-    age: 4.9,
-    image: IMGSample2,
-    description: "Enchanting and majestic Arabian Princess",
-    date: "Mar 2025"
-  },
-  {
-    id: 10,
-    title: "Yasmin Al-Karim",
-    location: "Camiguin Provincial Office",
-    age: 4.7,
-    image: IMGSample2,
-    description: "Stunning and remarkable Arabian Princess",
-    date: "Apr 2025"
-  },
-  {
-    id: 9,
-    title: "Layla Mansouri",
-    location: "Bukidnon Provincial Office",
-    age: 4.9,
-    image: IMGSample2,
-    description: "Enchanting and majestic Arabian Princess",
-    date: "Mar 2025"
-  },
-  {
-    id: 10,
-    title: "Yasmin Al-Karim",
-    location: "Camiguin Provincial Office",
-    age: 4.7,
-    image: IMGSample2,
-    description: "Stunning and remarkable Arabian Princess",
-    date: "Apr 2025"
-  },
-  {
-    id: 9,
-    title: "Layla Mansouri",
-    location: "Bukidnon Provincial Office",
-    age: 4.9,
-    image: IMGSample2,
-    description: "Enchanting and majestic Arabian Princess",
-    date: "Mar 2025"
-  },
-  {
-    id: 10,
-    title: "Yasmin Al-Karim",
-    location: "Camiguin Provincial Office",
-    age: 4.7,
-    image: IMGSample2,
-    description: "Stunning and remarkable Arabian Princess",
-    date: "Apr 2025"
-  }
-];
 
 export default function Voting() {
  const [currentIndex, setCurrentIndex] = useState(0);
+  const isInitialMount = useRef(true);
   const [_direction, setDirection] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [gender, setGender] = useState('men');
   const [votes, setVotes] = useState<{[key: number]: boolean}>({});
+  const [menCards, setMenCards] = useState<any[]>([]);
+  const [womenCards, setWomenCards] = useState<any[]>([]);
+  const [_voterName, setVoterName] = useState('');
+  const [_loading, setLoading] = useState(false);
+  const [_error, setError] = useState('');
+  const [votingError, setVotingError] = useState('');
+
+  // Fetch candidates from API
+  useEffect(() => {
+    const fetchCandidates = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get('/api/v1/vote/candidates/');
+        
+        const menData = response.data.mr || [];
+        const womenData = response.data.ms || [];
+        
+        setMenCards(menData);
+        setWomenCards(womenData);
+        setError('');
+      } catch (err) {
+        setError('Failed to fetch candidates');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Get voter name from localStorage
+    const savedVoterName = localStorage.getItem('voterName');
+    if (savedVoterName) {
+      setVoterName(savedVoterName);
+    }
+
+    // Load votes from localStorage
+    const savedVotes = localStorage.getItem('userVotes');
+    if (savedVotes) {
+      try {
+        setVotes(JSON.parse(savedVotes));
+      } catch (e) {
+        console.error('Failed to load votes from localStorage', e);
+      }
+    }
+
+    fetchCandidates();
+  }, []);
+
+  // Save votes to localStorage whenever they change
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    localStorage.setItem('userVotes', JSON.stringify(votes));
+  }, [votes]);
 
   const stars = useMemo(() => Array.from({length: 100}, (_, i) => ({
     id: i,
@@ -158,38 +83,62 @@ export default function Voting() {
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
-    }, 3000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [cards.length]);
 
-  const handleVote = (cardId: number) => {
+  const handleVote = async (cardId: number) => {
+    // Get voter name from localStorage on each vote
+    const currentVoterName = localStorage.getItem('voterName');
     
-  
-    const isManCard = menCards.some(c => c.id === cardId);
-    
-    // If unvoting, allow it
-    if (votes[cardId]) {
-      setVotes((prev) => ({
-        ...prev,
-        [cardId]: false
-      }));
+    if (!currentVoterName) {
+      setVotingError('Voter name not found. Please refresh and select your name again.');
       return;
     }
 
-    // If voting, check if already has a vote in this gender
-    if (isManCard) {
-      const hasManVote = getMenVotes().length > 0;
-      if (hasManVote) return; // Can't vote, already has a man vote
-    } else {
-      const hasWomanVote = getWomenVotes().length > 0;
-      if (hasWomanVote) return; // Can't vote, already has a woman vote
+    const isManCard = menCards.some(c => c.id === cardId);
+    
+    // If unvoting, remove the vote
+    if (votes[cardId]) {
+      try {
+        await axios.post(`/api/v1/vote/remove-vote/${cardId}/`, { voter_name: currentVoterName });
+        setVotes((prev) => ({
+          ...prev,
+          [cardId]: false
+        }));
+        setVotingError('');
+      } catch (err: any) {
+        setVotingError(err.response?.data?.detail || err.response?.data?.message || 'You have already voted for this candidate');
+      }
+      return;
     }
 
-    // Vote allowed
-    setVotes((prev) => ({
-      ...prev,
-      [cardId]: true
-    }));
+    // Check if already has a vote in this gender
+    if (isManCard) {
+      const hasManVote = getMenVotes().length > 0;
+      if (hasManVote) {
+        setVotingError('You can only vote for one Prince');
+        return;
+      }
+    } else {
+      const hasWomanVote = getWomenVotes().length > 0;
+      if (hasWomanVote) {
+        setVotingError('You can only vote for one Princess');
+        return;
+      }
+    }
+
+    // Cast vote
+    try {
+      await axios.post(`/api/v1/vote/vote/${cardId}/`, { voter_name: currentVoterName });
+      setVotes((prev) => ({
+        ...prev,
+        [cardId]: true
+      }));
+      setVotingError('');
+    } catch (err: any) {
+      setVotingError(err.response?.data?.detail || err.response?.data?.message || 'You have already voted a candidate');
+    }
   };
 
   const getMenVotes = () => menCards.filter(card => votes[card.id]);
@@ -313,6 +262,13 @@ export default function Voting() {
          
     
       <div className="w-screen overflow-hidden  ">
+        {/* Error Message */}
+        {votingError && (
+          <div className="mb-4 p-3 bg-red-500/20 border border-red-500 rounded-lg text-red-200 text-center">
+            {votingError}
+          </div>
+        )}
+
         {/* Header */}
         <div className="text-center mb-8 sm:mb-16">
           <h1 className="text-4xl sm:text-2xl text-[#ffcc75] font-extrabold mb-2 sm:mb-4 px-4">
@@ -387,7 +343,7 @@ Mr. and Ms. Best Dresse          </h1>
                 {/* Image */}
                 <div className="h-48 sm:h-56 md:h-64 overflow-hidden">
                   <img 
-                    src={card.image} 
+                    src={`https://zipfile.pythonanywhere.com/${card.image}`} 
                     alt={card.title}
                     className="w-full h-full object-cover"
                   />
@@ -519,7 +475,7 @@ Mr. and Ms. Best Dresse          </h1>
                         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(255, 255, 255, 0.03)'
                       }}>
                         <img 
-                          src={card.image} 
+                          src={`https://zipfile.pythonanywhere.com/${card.image}`} 
                           alt={card.title}
                           className="w-16 h-16 object-cover"
                         />
@@ -568,7 +524,7 @@ Mr. and Ms. Best Dresse          </h1>
                         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(255, 255, 255, 0.03)'
                       }}>
                         <img 
-                          src={card.image} 
+                          src={`https://zipfile.pythonanywhere.com/${card.image}`} 
                           alt={card.title}
                           className="w-16 h-16 object-cover"
                         />

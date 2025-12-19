@@ -8,8 +8,7 @@ import Select from 'react-select';
 import Logo from './assets/2025 YEPA.png'
 import { useState, useRef, useEffect } from "react";
 import Music from '/music.mp3'
-import NavLink from "./components/link/link";
-function App() {
+function Rate() {
 
   const navigate = useNavigate();
   const [showWelcome, setShowWelcome] = useState(true);
@@ -19,156 +18,10 @@ function App() {
   const [customVoterName, setCustomVoterName] = useState('');
 
   const NAMES = [
-    'Gualdaquever, Kinnara D.',
-'Cabañero, Neil Benedict A.',
-'Buot, Michael Andrew E',
-'Macagaan, Alyssa Marie R.',
-'NADALA, MA. THERESA ROCHELLE D.',
-'NORHAIFAH AMORAN',
-'Alva, Maria Cecilia, Tomaclas',
-'WABE, JENIEL C.', 
-'Garde, Tricia R.',
-'Bandiala, Angel Rose J.',
-'Cabañero, Junard B.',
-'Vistal, Allan A.',
-'BALANGUE, ASHLIA S.',
-'Indad, Marwa B.', 
-'Galua, Fe Marie Burlat',
-'Nacilla, Nideliza Fe, Oyao',
-'Genon, Danilo Pabonita',
-'JACALAN, DANICA V.',
-'BASADRE, REY VICENTE  S.',
-'Cuerquis, Alaiza Mae A.',
-'ASUNCION, KENNETH T.',
-'Mahawan, Ma. Julisa Antonette P.',
-'Palacios, Reyson Benedicto',
-'Talandron, Peter Jerome, A.',
-'Vicerra, Jules Des\'ree M.',
-'Estillore Eusebio Yana',
-'Bregoños Zenita Lopez',
-'Smith, Owieda B.',
-'Llanes, Jason S.',
-'Caulin, Ian Nico M.',
-'Reyes, Ryan Jay T.',
-'Amores, Almarie C.',
-'Daroy, Jimyco B.',
-'Abbas, Jawad, R.',
-'Macarimbang Albanie Alapa',
-'Arrozado David Berones',
-'Dael, Angelica Rose R.',
-'Jomaya, Luther John J.',
-'Castil, Judy Ann, S.',
-'Vallespin, Mariel Faith D.',
-'CADIZ, KRYZLL MAE L.',
-'Marciano J. Ramayla Jr.',
-'Cabactulan, Mark Clied, G.',
-'Guzman,Rolando T.',
-'Lacadin, Keren Happuch A.', 
-'Nova Jane N. Salvaña',
-'SUMIMBA,CIRILO A.',
-'Jabiniao, Rezllhe F.',
-'Mendrez, Mark Ian M.',
-'Nagamora, Jamalicah A.',
-'Omar, Mohammad Shawiy Amanoddin',
-'Dumio, Jaymark, D',
-'Lumogdang, Christell Faith D.',
-'Sagocsoc, James Kevin, M',
-'Asum, Aaliyah P.',
-'Turrobia, Jelin A.',
-'Carangan, Ella Grace S.',
-'Macabuat, Acmilah M',
-'Cabahit, Elezah May S.',
-'Garde, Tricia, R.',
-'SABLAS, BRYAN JOHN M.',
-'Duhaylungsod  Glenn C.',
+'SITTIE RAHMA V. ALAWI',
 'Raposala, Eugene III C.',
-'Ladra,Cristeve S.',
-'Nadala. Ma. Theresa Rochelle D.',
-'Datoy, Eric P.',
-'MANATAD, REYNALDO, ARCILLAS',
-'Rivera, Anthony Ludovico C.',
-'Abao Edison Dulhao',
-'Morden Jefrey',
-'MAGHACOT, JANE T.',
-'Pios, Karl Jasson B.',
-'MIER RICHARD CAGALITAN',
-'Pasandalan, Alnorodden B.',
-'Pangarungan, Ayman S.',
-'Mercado, Ernest Justin M.',
-'AZIS, SALWAH, D.', 
-'Vicerra, Philip.V',
-'Bandiala, Angel Rose J.',
-'Bondal, Lois Francis Banghal',
-'Macabuat, Acmilah M',
-'NADALA, MA. THERESA ROCHELLE D.',
-'Cabillo, Johanna Zola A.',
-'Azis,Salwah D.',
-'Ditucalan Aminoden M',
-'Estillore, Eusebio Y.',
-'Pakino, Jerile, R',
-'Cotamora Mario C.',
-'MARIO S. MALINIS',
-'Lariosa,Dante Daapong',
-'Alva, Maria Cecilia T.',
-'Labadan, Jaide B.',
-'Comadug, Farhana Domadalug',
-'ACTUB, EMELINE H.',
-'Nuska, Alvin V.',
-'Duhaylungsod Glenn C',
-'Alva, Maria Cecilia T.',
-'Labadan, Hope Shalom E.',
-'Mulay, Jeamaluding A.',
-'Morden Jefrey',
-'Nacilla, Nideliza Fe, O',
-'Raniai 1, Juwairiyah Rauffa A.',
-'Ligan, Elbert Laurence, L.',
-'Mangadang, Dibangkitun L.',
-'ZAMORA, JUNIEJO O.',
-'Genon, Danilo Pabonita',
-'DANILO P. GENON',
-'Lungay, Anthony, S.',
-'Maruhom, Jehan A',
-'Dipatuan, Noroden, M.',
-'ABUBACAR JAWWAD RAOF B.', 
-'Marohombsar, ANNA FARINA M.',
-'Raniai, Junainah Azima II A.',
-'Domiangca, Norhata D.',
-'Aliasgar, Najidah E.',
-'Mulay, Jeamaluding A.',
-'Luchana, Ramon Erlo, D.',
-'BACARAT, MANGONTAWAR O.',
-'BACARAT, SANDIGAN O.',
-'Engr. Jeoffrey F. Albay',
-'Khiro Climense Pudadera',
-'Dave Christian V. Rivera',
-'Munich Cove Tangapa',
-'Marifel Grace T. Caga',
-'Camille S. Decinilla',
-'Homyl P. Espinosa',
-'Trisha Mae M. Gonzales',
-'Ruthcel N. Molijon',
-'Ira Mae S. Nacalaban',
-'Jhonel M. Quilab',
-'Vanessa Pearl B. Veloz',
-'Riecagen P. Calamba',
-'Desirie O. Escalante',
-'Humphrey E. Manuel',
-'Alliana Marie M. Oñate',
-'Angelyn E. Petallo',
-'Alvin M. Poro Jr.',
-'Kenneth Jay G. Sabuero',
-'William E. Santillan Jr.',
-'Ryan G. Sarip',
-'Moammar A. Usman',
-'Sohaib M. Amerol',
-'Amalhaya Hadji Asis',
-'Bairona Pangaga',
-'Jherlen D. Alingal',
-'Julie Anne Amor',
-'VERLIE FEA GRACE P. CELLAN',
-'Sarah U. Palma',
-'Dessa Mae T. Manlangit',
-'SITTIE RAHMA V. ALAWI'
+'Garde, Tricia R.',
+
   ];
 
   const nameOptions = [
@@ -334,9 +187,9 @@ function App() {
                 onClick={() => {
                   if (canProceed) {
                     if (isCustomVoter) {
-                      handleCustomNameSubmit('/yepa2k25/voting');
+                      handleCustomNameSubmit('/yepa2k25/performance/rating');
                     } else {
-                      navigate('/yepa2k25/voting');
+                      navigate('/yepa2k25/performance/rating');
                       setShowWelcome(false);
                       if (audioRef.current) {
                         audioRef.current.play();
@@ -347,16 +200,16 @@ function App() {
                 disabled={!canProceed}
                 className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black rounded-full font-semibold hover:scale-105 transition-transform mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Mr and Ms YEPA 2025
+                Performance Voting
               </button>
 
               <button 
                 onClick={() => {
                   if (canProceed) {
                     if (isCustomVoter) {
-                      handleCustomNameSubmit('/yepa2k25/snap');
+                      handleCustomNameSubmit('/yepa2k25/performance/snap');
                     } else {
-                      navigate('/yepa2k25/snap');
+                      navigate('/yepa2k25/performance/snap');
                       setShowWelcome(false);
                       if (audioRef.current) {
                         audioRef.current.play();
@@ -381,7 +234,7 @@ function App() {
           <img src={Logo} className="logo sm:hidden h-[100px] object-contain " alt="Vite logo" />
         </Link>
         <nav className=" text-accent-foreground flex gap-10 uppercase items-center pointer-events-auto md:w-full justify-center ">
-        <NavLink  
+        {/* <NavLink  
         to="/yepa2k25/voting"
         text="Voting"
         />
@@ -389,7 +242,7 @@ function App() {
         <NavLink
         to="/yepa2k25/snap"
         text="Snap Booth"
-        />
+        /> */}
 
 
 
@@ -410,4 +263,4 @@ function App() {
 
 
 
-export default App
+export default Rate

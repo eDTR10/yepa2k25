@@ -6,12 +6,14 @@ import F2 from './../assets/frame2.png';
 import F3 from './../assets/frame3.png';
 
 // Frame images - replace these paths with your actual frame image paths
-const Frame1 = F1;
-const Frame2 = F2;
-const Frame3 = F3;
 
 
 const Photobooth: React.FC = () => {
+
+    const Frame1 = F1;
+const Frame2 = F2;
+const Frame3 = F3;
+
   const [photos, setPhotos] = useState<{ [key: string]: string }>({});
   const [activeFrame, setActiveFrame] = useState<string | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<number>(3);
